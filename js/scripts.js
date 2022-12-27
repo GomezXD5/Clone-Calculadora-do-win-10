@@ -30,7 +30,7 @@ class Calculator {
     switch (operation) {
       case "+":
         operationValue = previous + current;
-        this.upadateScreen(operationValue, operation, current, previous);
+        this.updateScreen(operationValue, operation, current, previous);
         break;
       default:
         return;
@@ -44,9 +44,17 @@ class Calculator {
     current = null,
     previous = null
   ) {
-    console.log(operationValue, operation, current, previous);
-
-    this.currentOperationText.innerText += this.currentOperation;
+    if (operationValue === null) {
+      this.currentOperationText.innerText += this.currentOperation;
+    } else {
+      //Check if value is zero, if it just add curret Value
+      if (previous === 0) {
+        operationValue = current
+      }
+      //add current Value to previous
+      this.previousOperationText.innerText = `${operationValue}  ${operation}`;
+      this.currentOperationText.innerText = "";
+    }
   }
 }
 
