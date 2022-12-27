@@ -8,21 +8,46 @@ class Calculator {
     this.currentOperationText = currentOperationText;
     this.currentOperation = "";
   }
-//add digit to Calculator Screen
-addDigit(digit){
-//Check if current Operations Already has a dot
-if (digit === "." && this.currentOperationText.innerText.includes(".")){
+  //add digit to Calculator Screen
+  addDigit(digit) {
+    //Check if current Operations Already has a dot
+    if (digit === "." && this.currentOperationText.innerText.includes(".")) {
+      return;
+    }
 
+    this.currentOperation = digit;
+    this.updateScreen();
+  }
 
-}
+  //process all calculator operations
 
-  this.currentOperation = digit
-  this.updateScreen()
-}
-//change values of the calculator screen
-updateScreen(){
-  this.currentOperationText.innerText += this.currentOperation;
-}
+  processOperation(operation) {
+    //get current and previous values
+    let operationValue;
+    const previous = +this.previusOperationText.innerText;
+    const current = +this.currentOperationText.innerText;
+
+    switch (operation) {
+      case "+":
+        operationValue = previous + current;
+        this.upadateScreen(operationValue, operation, current, previous);
+        break;
+      default:
+        return;
+    }
+  }
+
+  //change values of the calculator screen
+  updateScreen(
+    operationValue = null,
+    operation = null,
+    current = null,
+    previous = null
+  ) {
+    console.log(operationValue, operation, current, previous);
+
+    this.currentOperationText.innerText += this.currentOperation;
+  }
 }
 
 const calc = new Calculator(previusOperationText, currentOperationText);
@@ -34,7 +59,7 @@ buttons.forEach((btn) => {
     if (+value >= 0 || value === ".") {
       calc.addDigit(value);
     } else {
-      console.log("Op: " + value);
+      calc.processOperation(value);
     }
   });
 });
